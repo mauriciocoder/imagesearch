@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Image Search Abstraction Layer</title>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+  </head>
+ 
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<style>
+		body {
+		  padding-top: 20px;
+		  padding-bottom: 20px;
+		}
+		
+		.center-width {
+			width: 60%;
+		}
+		
+		.round-border {
+			border-radius: 5px;
+		}
+		
+		.quote-padding {
+			padding-top: 10px;
+			padding-bottom: 0px;
+		}
+	</style>
+  <body>
+    <div class="jumbotron center-block center-width round-border quote-padding">
+      <div class="container">
+        <h2 id="quote">Image Search Abstraction Layer</h1>
+        <p class="quote-padding">The service query for images and shows the most recently submitted search strings</p>
+		<p class="quote-padding">Usage Examples:</p>
+		<p class="quote-padding">
+			<ul>
+				<li>https://imagesearch-fcc-api.herokuapp.com/query/<b>lolcats</b>?offset=<b>2</b></li>
+			</ul>
+		</p>
+		<p class="quote-padding">Usage Output:</p>
+		<p class="quote-padding">
+			<ul>
+				<li>[{"url":"http://data.whicdn.com/images/30855761/large.jpg","alt":"cat and funny image","pageurl":"https://encrypted-tbn2.gstatic.com"}, ...]</li>
+			</ul>
+		</p>
+		<p class="quote-padding">Usage Examples:</p>
+		<p class="quote-padding">
+			<ul>
+				<li>https://imagesearch-fcc-api.herokuapp.com/latest/</li>
+			</ul>
+		</p>
+		<p class="quote-padding">Usage Output:</p>
+		<p class="quote-padding">
+			<ul>
+				<li>[{"term":"lolcats funny","when":"2016-08-11T20:07:52.175Z"},...]</li>
+			</ul>
+		</p>
+      </div>
+    </div>
+
+    <div class="container center-width">
+      <footer>
+        <p>&copy; 2016 Mauricio Bonetti</p>
+      </footer>
+    </div> <!-- /container -->
+  </body>
+</html>
