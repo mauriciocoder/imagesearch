@@ -1,4 +1,6 @@
+const mongo = require("mongodb").MongoClient;
 const https = require("https");
+var dbUrl = process.env.IMAGE_APP_DB_URL;
 const apiUrl = "https://www.googleapis.com/customsearch/v1?key="+ process.env.IMAGE_API_KEY +"&searchType=image";
 module.exports = {
     find: function find(query, offset, callback) {
@@ -6,6 +8,24 @@ module.exports = {
         var loadedApiUrl = apiUrl + "&q=" + query + "&start=" + startIndex;
         console.log("loadedApiUrl = " + loadedApiUrl);
         https.get(loadedApiUrl, handleApiResponse.bind(null, callback));
+    },
+    
+    insertLog: function insertLog(query, callback) {
+        mongo.connect(dbUrl, function(err, db) {
+            if (err) {
+                return callback(err);
+            }
+            var log = {term: query, when: new Date()};
+            var logColl = db.collection("log");
+            logColl.insert(log, function(err, data) {
+                if (err) {
+                    return callback(err);
+                }
+                console.log("logged: " + JSON.stringify(data));
+                db.close;
+                return callback(null);
+            });
+        });
     }
 }
 
@@ -23,7 +43,7 @@ function handleApiResponse(callback, response) {
     response.on("data", function (chunk) {
         buffer += chunk;
     });
-    response.on("end", function () {
+    response.on("end", function() {
         data = JSON.parse(buffer);
         var arr = data.items;
         var results = loadResults(arr);

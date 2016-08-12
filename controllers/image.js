@@ -6,6 +6,11 @@ router.get("/:QUERY", handleImageSearch);
 function handleImageSearch(req, resp, next) {
     var query = req.params.QUERY;
     var offset = req.query.offset ? req.query.offset : "1";
+    imageModel.insertLog(query, function(err) {
+        if (err) {
+            next(err);
+        }
+    });
     imageModel.find(query, offset, function(err, result) {
         if (err) {
             next(err);
