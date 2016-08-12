@@ -26,6 +26,22 @@ module.exports = {
                 return callback(null);
             });
         });
+    },
+    
+    findLog: function findLog(callback) {
+        mongo.connect(dbUrl, function(err, db) {
+            if (err) {
+                return callback(err);
+            }
+            var logColl = db.collection("log");
+            logColl.find().sort({_id:-1}).limit(10).toArray(function(err, documents) {
+                if (err) {
+                    return callback(err, null);
+                }
+                return callback(null, documents);
+                db.close;   // Refactor. Find better place to close it!!
+            });
+        });
     }
 }
 
