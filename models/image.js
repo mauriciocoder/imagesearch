@@ -11,38 +11,42 @@ module.exports = {
     },
     
     insertLog: function insertLog(query, callback) {
-        mongo.connect(dbUrl, function(err, db) {
-            if (err) {
-                return callback(err);
-            }
-            var log = {term: query, when: new Date()};
-            var logColl = db.collection("log");
-            logColl.insert(log, function(err, data) {
-                if (err) {
-                    return callback(err);
-                }
-                console.log("logged: " + JSON.stringify(data));
-                db.close;
-                return callback(null);
-            });
-        });
+        mongo.connect(dbUrl, handleInsertLog.bind(null, query, callback));
     },
     
     findLog: function findLog(callback) {
-        mongo.connect(dbUrl, function(err, db) {
-            if (err) {
-                return callback(err);
-            }
-            var logColl = db.collection("log");
-            logColl.find().sort({_id:-1}).limit(10).toArray(function(err, documents) {
-                if (err) {
-                    return callback(err, null);
-                }
-                return callback(null, documents);
-                db.close;   // Refactor. Find better place to close it!!
-            });
-        });
+        mongo.connect(dbUrl, handleFindLog.bind(null, callback));
     }
+}
+
+function handleInsertLog(query, callback, err, db) {
+    if (err) {
+        return callback(err);
+    }
+    var log = {term: query, when: new Date()};
+    var logColl = db.collection("log");
+    logColl.insert(log, function(err, data) {
+        if (err) {
+            return callback(err);
+        }
+        console.log("logged: " + JSON.stringify(data));
+        db.close;
+        return callback(null);
+    });
+}
+
+function handleFindLog(callback, err, db) {
+    if (err) {
+        return callback(err);
+    }
+    var logColl = db.collection("log");
+    logColl.find().sort({_id:-1}).limit(10).toArray(function(err, documents) {
+        if (err) {
+            return callback(err, null);
+        }
+        return callback(null, documents);
+        db.close;   // Refactor. Find better place to close it!!
+    });
 }
 
 function getStartIndex(offset) {
